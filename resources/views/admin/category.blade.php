@@ -48,7 +48,7 @@
                                                 <td>{{$category->name}}</td>
                                                 <td>{{$category->created_at->format('F j, Y')}}</td>
                                                 <td>
-                                                    <a href="/admin/adm-delete/category/{{$category->id}}" class="btn btn-success btn-sm"><i class="fa fa-trash"></i></a>
+                                                    <a href="/admin/adm-delete/category/{{$category->id}}" class="btn btn-trash btn-sm"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             @endforeach

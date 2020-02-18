@@ -20,7 +20,16 @@
             <div class="col-0 col-xl-2">
               <div class="menu-function">
                 <div id="search"><a class="search-btn" href="#"><i class="fas fa-search"></i></a></div>
-                <div class="social-contact"><a href="#/"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-dribbble"></i></a></div>
+                <div class="social-contact">
+                  @if(Auth::user())
+                  <a href="/admin/adm-dashboard" >Dashboard</a>
+                  @else
+                  <a href="#/"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="#"><i class="fab fa-dribbble"></i></a>
+                  @endif
+                </div>
               </div>
             </div>
           </div>

@@ -2,8 +2,8 @@
     <!-- LOGO -->
     <div class="topbar-left">
         <div class="text-center">
-            <a href="#" class="logo">Pettyperry</a>
-            <a href="#" class="logo-sm">Pettyperry</a>
+            <a href="/" class="logo">Pettyperry</a>
+            <a href="/" class="logo-sm">Pettyperry</a>
         </div>
     </div>
     <!-- Button mobile view to collapse sidebar menu -->
