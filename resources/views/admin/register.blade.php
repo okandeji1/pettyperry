@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group m-t-30 m-b-0">
                             <div class="col-sm-12 text-center">
-                                <a href="/admin/adm-login" class="text-muted">Already have account?</a>
+                                <p>Already have account?<a href="/admin/adm-login" class="text-muted"> Login</a></p>
                             </div>
                         </div>
                     </form>
@@ -93,20 +93,20 @@
 
 
         <!-- jQuery  -->
-        <script src="{{asset('/assets/js/jquery.min.js')}}"></script>
-        <script src="{{asset('/assets/js/bootstrap.min.js')}}"></script>
-        <script src="{{asset('/assets/js/modernizr.min.js')}}"></script>
-        <script src="{{asset('/assets/js/detect.js')}}"></script>
-        <script src="{{asset('/assets/js/fastclick.js')}}"></script>
-        <script src="{{asset('/assets/js/jquery.slimscroll.js')}}"></script>
-        <script src="{{asset('/assets/js/jquery.blockUI.js')}}"></script>
-        <script src="{{asset('/assets/js/waves.js')}}"></script>
-        <script src="{{asset('/assets/js/wow.min.js')}}"></script>
-        <script src="{{asset('/assets/js/jquery.nicescroll.js')}}"></script>
-        <script src="{{asset('/assets/js/jquery.scrollTo.min.js')}}"></script>
+        <script src="{{asset('admin/js/jquery.min.js')}}"></script>
+        <script src="{{asset('admin/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('admin/js/modernizr.min.js')}}"></script>
+        <script src="{{asset('admin/js/detect.js')}}"></script>
+        <script src="{{asset('admin/js/fastclick.js')}}"></script>
+        <script src="{{asset('admin/js/jquery.slimscroll.js')}}"></script>
+        <script src="{{asset('admin/js/jquery.blockUI.js')}}"></script>
+        <script src="{{asset('admin/js/waves.js')}}"></script>
+        <script src="{{asset('admin/js/wow.min.js')}}"></script>
+        <script src="{{asset('admin/js/jquery.nicescroll.js')}}"></script>
+        <script src="{{asset('admin/js/jquery.scrollTo.min.js')}}"></script>
         <!-- Parsleyjs -->
-        <script type="text/javascript" src="{{asset('assets/plugins/parsleyjs/parsley.min.js')}}"></script>
-        <script src="{{asset('/assets/js/app.js')}}"></script>
+        <script type="text/javascript" src="{{asset('admin/plugins/parsleyjs/parsley.min.js')}}"></script>
+        <script src="{{asset('admin/js/app.js')}}"></script>
 
         <script type="text/javascript">
 			$(document).ready(function() {

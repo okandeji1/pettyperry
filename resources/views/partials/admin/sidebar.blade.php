@@ -6,7 +6,7 @@
             </div>
             <div class="user-info">
                 <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Okandeji</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ Auth::user()->firstname }}</a>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:void(0)"> Profile</a></li>
                         <li><a href="javascript:void(0)"> Settings</a></li>

@@ -6,6 +6,7 @@ use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 
 class PostController extends Controller
@@ -19,7 +20,7 @@ class PostController extends Controller
     {
         // passing category & product to the view
         $categories = Category::all();
-        $posts = Post::orderBy('created_at', 'asc')->paginate(10);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
         if (Auth::guest()) {
             //is a guest so redirect
             return redirect('/admin/adm-login');
@@ -102,9 +103,16 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($uuid)
     {
-        //
+        $post = Post::where('uuid',$uuid)->first();
+        $categories = Category::all();
+        if (Auth::guest()) {
+            //is a guest so redirect
+            return redirect('/admin/adm-login');
+        }
+        // Check for correct user
+        return view('admin.edit_post', compact(['post', $post, 'categories', $categories]));
     }
 
     /**
@@ -114,9 +122,50 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $this -> validate($request, [
+            'header' => 'required',
+            'content' => 'required'
+        ]);
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            // Get file name with the extension
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            // Get just file name
+            $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just the extension
+            $extension = $request->file('image')->getClientOriginalExtension();
+            // File nameto store
+            $fileNameToStore = $fileName.'_'.time().'.'.$extension;
+            // Upload image
+            \Image::make($request->file('image'))->save(public_path('posts/').$fileNameToStore);
+        }
+        $header = $request->header;
+        $content = $request->content;
+        $category = $request->category;
+        // Update Post
+        $updatePost = Post::find($id);
+        if($updatePost){
+            $updatePost->header = $header;
+            $updatePost->content = $content;
+            if ($request->hasFile('image')) {
+                $updatePost->image = $fileNameToStore;
+            }
+                $content = $request->content;
+            if($category !== null){
+                $getCategory = Category::where('name', '=', $category)->firstOrFail();
+                $getCategory_id = $getCategory->id;
+                $updatePost->category_id = $getCategory_id;
+                $updatePost->save();
+                return redirect('/admin/adm-post')->with('success', 'Post Updated');
+            }else {
+                $updatePost->save();
+                return redirect('/admin/adm-post')->with('success', 'Post Updated');
+            }
+        }else {
+            return redirect('/admin/adm-post')->with('error', 'Unable to update post');
+        }
     }
 
     /**
@@ -125,8 +174,17 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request, $id)
     {
-        //
+        $deletePost = Post::find($id);
+        // Check for correct user
+        if($deletePost){
+            // Delete Image
+            Storage::delete('posts/'. $deletePost->image);
+            $deletePost ->delete();
+            return redirect('/admin/adm-post')->with('success', 'Post was deleted successfuly');
+        }else {
+            return redirect('/admin/adm-post')->with('success', 'Unable to delete post');
+        }
     }
 }

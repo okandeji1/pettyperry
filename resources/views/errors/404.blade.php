@@ -26,7 +26,7 @@
                 <h1 class="text-white">404!</h1>
                 <h2 class="text-white">Sorry, page not found</h2><br>
 
-                <a class="btn btn-primary waves-effect waves-light" href="index.html">Back to Dashboard</a>
+                <a class="btn btn-primary waves-effect waves-light" href="/">Back to Home</a>
             </div>
         </div>
 

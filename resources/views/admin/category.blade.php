@@ -32,23 +32,35 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="table-responsive table-hover table-bordered">
-                                    <table class="table">
+                                    <table class="table table table-striped- table-bordered table-hover table-checkable responsive no-wrap">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Date</th>
+                                                <th>Modified</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($categories as $category)
+                                            @foreach ($categories as $key => $category)
                                             <tr>
-                                                <td>{{$category->id}}</td>
+                                                <td>{{$key+1}}</td>
                                                 <td>{{$category->name}}</td>
-                                                <td>{{$category->created}}</td>
+                                                <td>{{$category->created_at->format('F j, Y')}}</td>
+                                                <td>
+                                                    <a href="/admin/adm-delete/category/{{$category->id}}" class="btn btn-success btn-sm"><i class="fa fa-trash"></i></a>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Modified</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

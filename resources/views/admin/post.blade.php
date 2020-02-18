@@ -32,27 +32,42 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="table-responsive table-hover table-bordered">
-                                    <table class="table">
+                                    <table class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Category</th>
-                                                <th>Name</th>
-                                                <th>Description</th>
+                                                <th>Title</th>
+                                                <th>Posted by</th>
                                                 <th>Date</th>
+                                                <th>Modified</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($posts as $post)
+                                            @foreach ($posts as $key => $post)
                                             <tr>
-                                                <td>{{$post->id}}</td>
+                                                <td>{{$key+1}}</td>
                                                 <td>{{$post->category->name}}</td>
-                                                <td>{{$post->name}}</td>
-                                                <td>{{$post->description}}</td>
-                                                <td>{{$post->created_at}}</td>
+                                                <td>{{$post->header}}</td>
+                                                <td>{{$post->user->firstname}}</td>
+                                                <td>{{$post->created_at->format('F j, Y')}}</td>
+                                                <td>
+                                                    <a href="/admin/adm-edit/post/{{$post->uuid}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a> / 
+                                                    <a href="/admin/adm-delete/post/{{$post->id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category</th>
+                                                <th>Title</th>
+                                                <th>Posted by</th>
+                                                <th>Date</th>
+                                                <th>Modified</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -77,7 +92,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/adm-post" method="post" enctype="multipart/form-data">
+               <form action="/admin/adm-post" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
                 <div class="form-group">
                     <select name="category" class="form-control :class="{ 'is-invalid': form.errors.has('category') }" required>
@@ -100,13 +115,75 @@
                     <textarea name="content" class="form-control :class="{ 'is-invalid': form.errors.has('content') }" placeholder="Post content" required></textarea>
                     <has-error :form="form" field="content"></has-error>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-success" type="submit">Save</button>
-            </div>
-            </form>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-success" type="submit">Save</button>
+                </div>
+              </form>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+
+    <!--begin::Page Vendors -->
+    <script src="{{asset('admin/plugins/datatables/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+
+    <!--end::Page Vendors -->
+
+    <!--begin::Page Scripts -->
+    <script src="{{asset('admin/plugins/datatables/dataTables.responsive.min.js')}}" type="text/javascript"></script>
+
+    <script>
+
+        function deleteProject(id) {
+
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+
+            }).then(function(result){
+                if (result.value) {
+
+                    confirmDeleteProject(id);
+
+                    swal(
+                        'Deleted!',
+                        'Project has been deleted.',
+                        'success'
+                    )
+                    .then(function(){
+                        location.reload();
+                    });
+                } else if (result.dismiss === 'cancel') {
+                    swal(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+            });
+        };
+
+        function confirmDeleteProject(id){
+            var id = id;
+            $.ajax({
+                url: '{{url("/project/delete")}}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "projectId": id
+                },
+                success: function(data){
+                }
+            });
+        }
+
+    </script>
+    
 @endsection

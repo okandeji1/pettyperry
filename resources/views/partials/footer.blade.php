@@ -1,4 +1,4 @@
-<footer>
+<footer class="footer mt-auto py-3">
     <div class="container">
       <div class="row">
         <div class="col-lg-8">
@@ -11,8 +11,7 @@
           </div>
         </div>
         <div class="col-lg-4">
-          <p class="copyright">Pettyperry Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o text-danger" aria-hidden="true"></i> by <a
-            href="https://kandesoft.herokuapp.com" target="_blank">Okandeji</a></p>
+          <p class="copyright">Copyright &copy; <script>document.write(new Date().getFullYear());</script> Pettyperry All rights reserved | Made with <i class="fa fa-heart text-danger" aria-hidden="true"></i> by <a href="https://kandesoft.herokuapp.com" target="_blank">Okandeji</a></p>
         </div>
       </div>
     </div>

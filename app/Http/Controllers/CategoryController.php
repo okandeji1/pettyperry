@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'asc')->paginate(10);
+        $categories = Category::orderBy('created_at', 'desc')->paginate(10);
         if (Auth::guest()) {
             //is a guest so redirect
             return redirect('/');
@@ -102,8 +102,15 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request, $id)
     {
-        //
+        $deletecategory = Category::find($id);
+        // Check for correct user
+        if($deletecategory){
+            $deletecategory ->delete();
+            return back()->with('success', 'Category was deleted successfuly');
+        }else {
+            return back()->with('success', 'Unable to delete category');
+        }
     }
 }

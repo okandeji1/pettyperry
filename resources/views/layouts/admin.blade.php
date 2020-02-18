@@ -48,7 +48,7 @@
 
             <div class="content-page">
                 <!-- Session message -->
-                @incpartials.lude(.messages')
+                @include('partials.messages')
                 <!-- Start content -->
                 @yield('content') 
                 <!-- content -->
@@ -79,7 +79,7 @@
         <script src="{{asset('admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('admin/plugins/datatables/dataTables.bootstrap.js')}}"></script>
         <script src="{{asset('admin/plugins/datatables/dataTables.responsive.min.js')}}"></script>
-        <script src="{{asset('assets/plugins/datatables/responsive.bootstrap.min.js')}}"></script>
+        <script src="{{asset('admin/plugins/datatables/responsive.bootstrap.min.js')}}"></script>
         <script src="{{asset('admin/pages/dashborad.js')}}"></script>
         <script src="{{asset('admin/js/app.js')}}"></script>
         <!-- Parsleyjs -->

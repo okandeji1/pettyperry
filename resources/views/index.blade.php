@@ -14,7 +14,7 @@
               </div><a class="post-title title" href="/posts/{{$descPost->uuid}}">{{$descPost->header}}</a>
               <div class="post-credit">
                 <div class="author">
-                  <h5 class="author-name">{{$descPost->user->name}}</h5>
+                  <h5 class="author-name">{{$descPost->user->firstname}}</h5>
                 </div>
               </div>
             </div>
@@ -35,7 +35,7 @@
                   </div><a class="post-title title" href="/posts/{{$ascPost->uuid}}">{{$ascPost->header}}</a>
                   <div class="post-credit">
                     <div class="author">
-                      <h5 class="author-name">{{$ascPost->user->name}}</h5>
+                      <h5 class="author-name">{{$ascPost->user->firstname}}</h5>
                     </div>
                   </div>
                 </div>
@@ -54,7 +54,7 @@
                   </div><a class="post-title title" href="/posts/{{$post->uuid}}">{{$post->header}}</a>
                   <div class="post-credit">
                     <div class="author">
-                      <h5 class="author-name">{{$post->user->name}}</h5>
+                      <h5 class="author-name">{{$post->user->firstname}}</h5>
                     </div>
                   </div>
                 </div>
@@ -81,7 +81,7 @@
             <div class="post-detail"><a class="post-title regular" href="/posts/{{$post->uuid}}">{{$post->header}}</a>
               <div class="post-credit">
                 <div class="author"><a class="author-avatar" href="#"><img src="user/images/avatar/avatar-1.png" alt="auhtor"></a>
-                  <h5 class="author-name">{{$post->user->name}}</h5>
+                  <h5 class="author-name">{{$post->user->firstname}}</h5>
                 </div>
                 <h5 class="upload-day">{{$post->created_at->format('F j, Y')}}</h5>
                 <div class="post-tag"><a href="index.html">{{$post->category->name}}</a></div>
@@ -104,7 +104,7 @@
               </div><a class="post-title small" href="/posts/{{$post->uuid}}">{{$post->header}}</a>
               <div class="post-credit">
                 <div class="author">
-                  <h5 class="author-name">{{$post->user->name}}</h5>
+                  <h5 class="author-name">{{$post->user->firstname}}</h5>
                 </div>
               </div>
             </div>
@@ -128,7 +128,7 @@
               </div><a class="post-title title-small" href="/posts/{{$post->uuid}}">{{$post->header}}</a>
               <div class="post-credit">
                 <div class="author">
-                  <h5 class="author-name">{{$post->user->name}}</h5>
+                  <h5 class="author-name">{{$post->user->firstname}}</h5>
                 </div>
               </div>
             </div>

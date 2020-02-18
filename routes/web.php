@@ -33,10 +33,12 @@ Route::get('/admin/adm-dashboard', function(){
     }
     return view('admin/dashboard');
 });
-
-
+Route::get('/admin/adm-edit/post/{uuid}', 'PostController@edit');
+Route::post('/update/{id}', 'PostController@update');
+Route::get('/admin/adm-delete/post/{id}', 'PostController@destroy');
 Route::get('/admin/adm-post', 'PostController@index');
 Route::post('/admin/adm-post', 'PostController@store');
 
+Route::get('/admin/adm-delete/category/{id}', 'CategoryController@destroy');
 Route::get('/admin/adm-category', 'CategoryController@index');
 Route::post('/admin/adm-category', 'CategoryController@store');
