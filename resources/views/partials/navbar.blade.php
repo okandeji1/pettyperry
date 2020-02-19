@@ -19,10 +19,18 @@
             </div>
             <div class="col-0 col-xl-2">
               <div class="menu-function">
-                <div id="search"><a class="search-btn" href="#"><i class="fas fa-search"></i></a></div>
+                {{-- <div id="search"><a class="search-btn" href="#"><i class="fas fa-search"></i></a></div> --}}
                 <div class="social-contact">
                   @if(Auth::user())
-                  <a href="/admin/adm-dashboard" >Dashboard</a>
+                  {{-- <a href="/admin/adm-dashboard" >Dashboard</a> --}}
+                  <ul>
+                    <li class="nav-item">
+                      <a href="/admin/adm-dashboard"><span class="badge badge-success pull-right">5</span> Dashboard </a>
+                    </li>
+                    <li class="nav-item"><a href="javascript:void(0)"> Profile</a></li>
+                    <li class="nav-item" class="divider"></li>
+                    <li class="nav-item"><a href="/logout" class="text-danger"> Logout</a></li>
+                </ul>
                   @else
                   <a href="#/"><i class="fab fa-facebook-f"></i></a>
                   <a href="#"><i class="fab fa-instagram"></i></a>

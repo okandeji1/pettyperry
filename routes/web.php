@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'PagesController@index');
+Route::get('/test', 'PagesController@test');
 Route::get('/posts/{uuid}', 'PagesController@show');
 
 Route::get('/admin/adm-login', function(){

@@ -1,10 +1,10 @@
 {
-    "name": "laravel/laravel",
+    "name": "pettyperry/pettyperry",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Blog",
     "keywords": [
-        "framework",
-        "laravel"
+        "entertainment",
+        "news"
     ],
     "license": "MIT",
     "require": {
@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.2",
+        "laravel/helpers": "^1.1",
         "laravel/passport": "^8.4",
         "laravel/tinker": "^2.0"
     },

@@ -12,7 +12,7 @@
                     <p>{{$post->created_at->format('F j, Y')}}</p>
                   </div>
                 </div>
-                <img class="blog-cover img-fluid" src="{{$post->image}}" alt="blog image">
+                <img class="blog-cover img-fluid" src="/storage/posts/{{$post->image}}" alt="blog image">
                 <p class="blog-pragraph"> <span></span>{{str_limit($post->content, $limit = 200, $end = '...')}}</p>
                 <div class="row">
                   {{-- <div class="col-12 col-sm-6">
@@ -26,14 +26,19 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="post-tags">
-                        <a href="#">Camera</a>
-                        <a href="#">PHOTOGRAHY</a>
-                        <a href="#">TIPS</a></div>
+                        <a href="#">Entertainment</a>
+                        <a href="#">News</a>
+                        <a href="#">Celebrity</a></div>
                   </div>
                   <div class="col-sm-6 text-sm-right">
                     <div class="post-share">
                       <p>Share: </p>
-                      <div class="socials"><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a><a href="https://twitter.com/"><i class="fab fa-twitter"></i></a><a href="https://dribbble.com/"><i class="fab fa-dribbble"></i></a></div>
+                      <div class="socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-dribbble"></i></a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -43,7 +48,7 @@
                     @foreach ($descPosts as $descPost)
                   <div class="col-12 col-md-6"><a href=""></a>
                     <div class="another-post_block prev-post">
-                      <div class="post-mini-img text-left"><a href="/posts/{{$descPost->uuid}}"><img src="{{$descPost->image}}" alt="post image"></a></div>
+                      <div class="post-mini-img text-left"><a href="/posts/{{$descPost->uuid}}"><img src="/storage/posts/{{$descPost->image}}" alt="post image"></a></div>
                       <div class="post-title">
                         <p>Previous post</p><a href="/posts/{{$descPost->uuid}}">{{$descPost->header}}</a>
                       </div>
@@ -57,7 +62,7 @@
                       <div class="post-title">
                         <p>Next post</p><a href="/posts/{{$posts->uuid}}">{{$posts->header}}</a>
                       </div>
-                      <div class="post-mini-img text-right"><a href="#"><img src="{{$posts->image}}" alt="post image"></a></div>
+                      <div class="post-mini-img text-right"><a href="#"><img src="/storage/posts/{{$posts->image}}" alt="post image"></a></div>
                     </div>
                   </div>
                   @break

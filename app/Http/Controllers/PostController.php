@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
 use Auth;
-
 class PostController extends Controller
 {
     /**
@@ -47,24 +46,25 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required',
+            'image' => 'required|file|mimes:jpg,png,peg,svg,gif,jpeg',
             'category' => 'required',
             'header' => 'required',
             'content' => 'required',
         ]);
         // Handle file upload
-
         if ($request->hasFile('image')) {
             // Get file name with the extension
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            // Get just file name
             $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             // Get just the extension
             $extension = $request->file('image')->getClientOriginalExtension();
             // File nameto store
             $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
             // Upload image
-            \Image::make($request->file('image'))->save(public_path('posts/') . $fileNameToStore);
+            $image = \Image::make($request->file('image')); //->save(public_path('posts/') . $fileNameToStore)
+            $newImage = $image->resize(370,232);
+            $path = "public/posts/".$fileNameToStore;
+            Storage::put($path, $newImage->encode());
         } else {
             return redirect()->back()->with('error', 'Image is required');
         }

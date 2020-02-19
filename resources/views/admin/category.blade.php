@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="table-responsive table-hover table-bordered">
-                                    <table class="table table table-striped- table-bordered table-hover table-checkable responsive no-wrap">
+                                    <table id="datatable-responsive" class="table table-striped table-bordered table-hover table-checkable dt-responsive nowrap" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
