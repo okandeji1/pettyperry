@@ -28,7 +28,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12">
-                               <button class="btn btn-success" data-toggle="modal" data-target="#addProduct" style="margin-bottom: 2rem"><span class="fa fa-plus"></span> Create New</button>
+                               <a class="btn btn-success" href="/admin/adm-add/post" style="margin-bottom: 2rem"><span class="fa fa-plus"></span> Create New</a>
                             </div>
                             <div class="col-xs-12">
                                 <div class="table-responsive table-hover table-bordered">
@@ -38,9 +38,11 @@
                                                 <th>#</th>
                                                 <th>Category</th>
                                                 <th>Title</th>
-                                                <th>Posted by</th>
+                                                <th>Author</th>
+                                                <th>Status</th>
                                                 <th>Date</th>
                                                 <th>Modified</th>
+                                                <th>Publish</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -50,10 +52,18 @@
                                                 <td>{{$post->category->name}}</td>
                                                 <td>{{$post->header}}</td>
                                                 <td>{{$post->user->firstname}}</td>
+                                                @if($post->status)
+                                                <td>Published</td>
+                                                @else
+                                                <td>Unpublished</td>
+                                                @endif
                                                 <td>{{$post->created_at->format('F j, Y')}}</td>
                                                 <td>
                                                     <a href="/admin/adm-edit/post/{{$post->uuid}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a> / 
                                                     <a href="/admin/adm-delete/post/{{$post->id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/adm-publish/post/{{$post->uuid}}" class="btn btn-primary btn-lg"><i class="fa fa-share-square"></i></a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -63,9 +73,11 @@
                                                 <th>#</th>
                                                 <th>Category</th>
                                                 <th>Title</th>
-                                                <th>Posted by</th>
+                                                <th>Author</th>
+                                                <th>Status</th>
                                                 <th>Date</th>
                                                 <th>Modified</th>
+                                                <th>Publish</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -80,110 +92,29 @@
 
 </div>
 <!-- content -->
-
-<!-- Modal -->
-<div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProduct" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProduct">Add New Post</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-               <form action="/admin/adm-post" method="post" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                <div class="form-group">
-                    <select name="category" class="form-control :class="{ 'is-invalid': form.errors.has('category') }" required>
-                        <option value="">Select Category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{$category->name}}">{{$category->name}}</option>
-                            @endforeach
-                        </select>
-                        <has-error :form="form" field="category"></has-error>
-                </div>
-                <div class="form-group">
-                    <input type="file" name="image" class="form-control :class="{ 'is-invalid': form.errors.has('image') }" required>
-                    <has-error :form="form" field="image"></has-error>
-                </div>
-                <div class="form-group">
-                    <textarea name="header" class="form-control :class="{ 'is-invalid': form.errors.has('header') }" placeholder="Post header" required></textarea>
-                    <has-error :form="form" field="header"></has-error>
-                </div>
-                <div class="form-group">
-                    <textarea name="content" class="form-control :class="{ 'is-invalid': form.errors.has('content') }" placeholder="Post content" required></textarea>
-                    <has-error :form="form" field="content"></has-error>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success" type="submit">Save</button>
-                </div>
-              </form>
-            </div>
-        </div>
-    </div>
-@endsection
-@section('script')
-
-    <!--begin::Page Vendors -->
-    <script src="{{asset('admin/plugins/datatables/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-
-    <!--end::Page Vendors -->
-
-    <!--begin::Page Scripts -->
-    <script src="{{asset('admin/plugins/datatables/dataTables.responsive.min.js')}}" type="text/javascript"></script>
-
-    <script>
-
-        function deleteProject(id) {
-
-            swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-
-            }).then(function(result){
-                if (result.value) {
-
-                    confirmDeleteProject(id);
-
-                    swal(
-                        'Deleted!',
-                        'Project has been deleted.',
-                        'success'
-                    )
-                    .then(function(){
-                        location.reload();
-                    });
-                } else if (result.dismiss === 'cancel') {
-                    swal(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
-                }
-            });
-        };
-
-        function confirmDeleteProject(id){
-            var id = id;
+<script src="{{asset('admin/js/jquery.min.js')}}"></script>
+{{-- Script to append post status --}}
+<script>
+    $('#postId').on('click', function(e){
+            e.preventDefault();
+            // alert($('#postId').val());
+            // return
+            // Process postId post
+            var postId = $('#postId').val();
             $.ajax({
-                url: '{{url("/project/delete")}}',
+                url: "/admin/adm-publish/post/",
                 type: 'POST',
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "projectId": id
+                    "postId": postId
                 },
                 success: function(data){
+                    console.log(data)					
+                },
+                error: function(error){
+                    console.error('Error publishing your post', error)
                 }
             });
-        }
-
-    </script>
-    
+    });
+</script>
 @endsection

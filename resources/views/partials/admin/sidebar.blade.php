@@ -34,24 +34,18 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="ti-wand"></i> <span> User Management </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="ti-user"></i> <span> User Management </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="/stock-in">Stock In</a></li>
-                        <li><a href="/make-order">Order</a></li>
-                        <li><a href="#">Stock Out</a></li>
-                        <li><a href="/invoice">Invoice</a></li>
+                        <li><a href="/admin/adm-user">Users</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="calendar.html" class="waves-effect"><i class="ti-calendar"></i><span> Reports <span class="badge badge-primary pull-right">NEW</span></span></a>
-                </li>
-                <li>
-                    <a href="/customer" class="waves-effect"><i class="ti-ruler-pencil"></i><span> Customers <span class="badge badge-primary pull-right">6</span></span></a>
+                    <a href="#" class="waves-effect"><i class="ti-id-badge"></i><span> Profile <span class="badge badge-primary pull-right">NEW</span></span></a>
                 </li>
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="ti-wand"></i> <span> Settings </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="#">Comany Settings</a></li>
+                        <li><a href="#">Profile Settings</a></li>
                     </ul>
                 </li>
             </ul>

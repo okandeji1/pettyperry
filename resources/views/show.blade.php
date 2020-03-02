@@ -15,9 +15,12 @@
                 <img class="blog-cover img-fluid" src="/storage/posts/{{$post->image}}" alt="blog image">
                 <p class="blog-pragraph"> <span></span>{{str_limit($post->content, $limit = 200, $end = '...')}}</p>
                 <div class="row">
-                  {{-- <div class="col-12 col-sm-6">
-                      <img class="img-fluid" src="{{$post->image}}" alt="post image">
-                  </div> --}}
+                  <div class="col-12 col-sm-6">
+                      {{-- <img class="img-fluid" src="{{$post->image}}" alt="post image"> --}}
+                      <video controls loop>
+                        <source src="/posts/{{$post->video}}" type="video/mp4">
+                      </video>
+                  </div>
                 </div>
                 <h3 class="post-title">{{$post->header}}</h3>
                 <p class="blog-pragraph">{{$post->content}}</p>

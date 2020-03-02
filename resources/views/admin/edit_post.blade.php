@@ -2,6 +2,7 @@
 @section('content')
 <!-- Start content -->
 <div class="content">
+    @include('partials.messages')
     <div class="container">
 
         <!-- Page-Title -->

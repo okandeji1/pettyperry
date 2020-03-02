@@ -34,7 +34,13 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        if (Auth::guest()) {
+            //is a guest so redirect
+            return redirect('/admin/adm-login');
+        }
+        // Check for correct user
+        return view('admin.add_post')->with('categories', $categories);
     }
 
     /**
@@ -45,45 +51,58 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $this->validate($request, [
-            'image' => 'required|file|mimes:jpg,png,peg,svg,gif,jpeg',
+            'image' => 'file|mimes:jpg,png,peg,svg,gif,jpeg',
             'category' => 'required',
             'header' => 'required',
             'content' => 'required',
+            'media' => 'file|mimes:mp4,mp3',
         ]);
         // Handle file upload
+        $post = new Post();
         if ($request->hasFile('image')) {
             // Get file name with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just the extension
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // File nameto store
-            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
-            // Upload image
-            $image = \Image::make($request->file('image')); //->save(public_path('posts/') . $fileNameToStore)
-            $newImage = $image->resize(370,232);
-            $path = "public/posts/".$fileNameToStore;
-            Storage::put($path, $newImage->encode());
-        } else {
-            return redirect()->back()->with('error', 'Image is required');
+            $path = request()->file('image')->store('posts');
+            $post->image = $path;
+        } else if($request->hasFile('media')){
+            $pathMedia = request()->file('media')->store('posts');
+            $post->video = $pathMedia;
+        }else {
+            return back()->with('error', 'A file is required');
         }
+        // $post = new Post();
+        // switch ($request) {
+        //     case $request->hasFile('image'):
+        //         # code...
+        //         $path = request()->file('image')->store('posts/');
+        //         $post->image = $path;
+        //         break;
+        //     case $request->hasFile('media'):
+        //         # code...
+        //         $pathMedia = request()->file('media')->store('posts/');
+        //         $post->video = $pathMedia;
+        //         break;
+        //     default:
+        //         # code...
+        //         return back()->with('error', 'A file is required');
+        //         break;
+        // }
         // Form data
-        $data = $request->only(['header', 'content', 'category']);
+        $data = $request->only(['header', 'content', 'category', 'link']);
         // Get category
         $category = Category::where('name', '=', $data['category'])->firstOrFail();
         $category_id = $category->id;
         // Create Product
-        $post = new Post();
         $post->uuid = Uuid::uuid4();
         $post->user_id = auth()->user()->id;
         $post->category_id = $category_id;
         $post->header = $data['header'];
         $post->content = $data['content'];
-        $post->image = $fileNameToStore;
+        $post->link = $data['link'];
         $post->save();
 
-        return back()->with('success', 'New Post Added Successfully');
+        return redirect('/admin/adm-post')->with('success', 'New Post Added Successfully');
     }
 
     /**
@@ -116,6 +135,23 @@ class PostController extends Controller
     }
 
     /**
+     * Publish the specified post
+     */
+
+     public function publish(Request $request, $uuid)
+     {
+        $post = Post::where('uuid', $uuid)->firstOrFail();
+        if($post){
+            $post->status = 1;
+            $post->save();
+            return back()->with('success', 'Post successfully published');
+        }else {
+            return back()->with('error', 'Unable to publish post');
+        }
+        return Response::json($response);
+     }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -130,16 +166,7 @@ class PostController extends Controller
         ]);
         // Handle file upload
         if ($request->hasFile('image')) {
-            // Get file name with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            // Get just file name
-            $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just the extension
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // File nameto store
-            $fileNameToStore = $fileName.'_'.time().'.'.$extension;
-            // Upload image
-            \Image::make($request->file('image'))->save(public_path('posts/').$fileNameToStore);
+            $path = request()->file('image')->store('posts');
         }
         $header = $request->header;
         $content = $request->content;
@@ -150,7 +177,7 @@ class PostController extends Controller
             $updatePost->header = $header;
             $updatePost->content = $content;
             if ($request->hasFile('image')) {
-                $updatePost->image = $fileNameToStore;
+                $updatePost->image = $path;
             }
                 $content = $request->content;
             if($category !== null){

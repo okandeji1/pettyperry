@@ -20,7 +20,10 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->text('header');
             $table->longText('content');
-            $table->text('image');
+            $table->text('image')->nullable();
+            $table->text('video')->nullable();
+            $table->text('link')->nullable();
+            $table->boolean('status')->default('0');
             $table->timestamps();
         });
     }

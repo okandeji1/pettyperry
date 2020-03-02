@@ -15,13 +15,18 @@ class PagesController extends Controller
     public function index()
     {
         // Show Index page
-        $posts = Post::inRandomOrder()->get();
-        $ascPosts = Post::orderBy('created_at', 'asc')->paginate(10);
-        $descPosts = Post::orderBy('created_at', 'desc')->paginate(10);
+        $posts = Post::where('status', 1)->inRandomOrder()->get();
+        $ascPosts = Post::where('status', 1, 'asc')->paginate(10);
+        $descPosts = Post::where('status', 1, 'desc')->paginate(10);
         return view('index', compact(
             'posts', $posts,
             'ascPosts', $ascPosts, 
             'descPosts', $descPosts));
+    }
+
+    public function profile()
+    {
+        return view('admin.profile');
     }
 
     /**
@@ -54,7 +59,7 @@ class PagesController extends Controller
     public function show($uuid)
     {
         $post = Post::where('uuid',$uuid)->first();
-        $posts = Post::inRandomOrder()->get();
+        $posts = Post::where('status', 1)->inRandomOrder()->get();
         $descPosts = Post::orderBy('created_at', 'desc')->paginate(10);
         return view('show', compact(['post', $post, 'posts', $posts, 'descPosts', $descPosts]));
     }
