@@ -2,15 +2,14 @@
     <div class="sidebar-inner slimscrollleft">
         <div class="user-details">
             <div class="text-center">
-                <img src="#" alt="" class="img-circle">
+                <img src="/storage/{{Auth::user()->image}}" class="img-circle" alt="Profile Image">
             </div>
             <div class="user-info">
                 <div class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ Auth::user()->firstname }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)"> Profile</a></li>
-                        <li><a href="javascript:void(0)"> Settings</a></li>
-                        <li><a href="javascript:void(0)"> Lock screen</a></li>
+                        <li><a href="/admin/adm-profile"> Profile</a></li>
+                        <li><a href="/admin/adm-settings/{{ Auth::user()->uuid }}"> Settings</a></li>
                         <li class="divider"></li>
                         <li><a href="/logout"> Logout</a></li>
                     </ul>
@@ -40,13 +39,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="waves-effect"><i class="ti-id-badge"></i><span> Profile <span class="badge badge-primary pull-right">NEW</span></span></a>
+                    <a href="/admin/adm-profile" class="waves-effect"><i class="ti-id-badge"></i><span> Profile <span class="badge badge-primary pull-right">NEW</span></span></a>
                 </li>
-                <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="ti-wand"></i> <span> Settings </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Profile Settings</a></li>
-                    </ul>
+                <li>
+                    <a href="/admin/adm-settings/{{ Auth::user()->uuid }}" class="waves-effect"><i class="ti-wand"></i> <span> Settings </span></a>
                 </li>
             </ul>
         </div>

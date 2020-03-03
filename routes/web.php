@@ -12,7 +12,6 @@
 */
 
 Route::get('/', 'PagesController@index');
-Route::get('/profile', 'PagesController@profile');
 Route::get('/posts/{uuid}', 'PagesController@show');
 
 Route::get('/admin/adm-login', function(){
@@ -27,6 +26,11 @@ Route::post('/admin/adm-login', 'UserController@login');
 Route::post('/admin/adm-register', 'UserController@register');
 Route::get('/logout', 'UserController@logout');
 Route::get('/admin/adm-dashboard', 'UserController@dashboard');
+Route::get('/admin/adm-profile', 'UserController@profile');
+Route::get('/admin/adm-settings/{uuid}', 'UserController@settings');
+Route::post('/user/settings/{id}', 'UserController@profileSettings');
+Route::post('/user/password/{id}', 'UserController@password');
+Route::post('/user/image/{id}', 'UserController@uploadImage');
 Route::get('/admin/adm-user', 'UserController@index');
 Route::get('/admin/adm-edit/user/{uuid}', 'UserController@edit');
 Route::post('/update/{id}', 'UserController@update');

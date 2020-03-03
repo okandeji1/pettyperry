@@ -123,6 +123,109 @@ class UserController extends Controller
             );
     }
     /**
+     * Profile
+     */
+    public function profile()
+    {
+        if (Auth::guest()) {
+            //is a guest so redirect
+            return redirect('/admin/adm-login');
+        }else{
+            return view('admin.profile');
+        }
+    }
+    /**
+     * Profile settings
+     */
+    public function settings($uuid)
+    {
+        if (Auth::guest()) {
+            //is a guest so redirect
+            return redirect('/admin/adm-login');
+        }else {
+            $user = User::where('uuid',$uuid)->first();
+        // Check for correct user
+        return view('admin.settings')->with('user', $user);
+        }
+    }
+    /**
+     * Update profile settings
+     */
+    public function profileSettings(Request $request, $id)
+    {
+        $this->validate($request, [
+            'firstname' => 'required|max:50',
+            'lastname' => 'required|max:50',
+            'email' => 'required|email',
+            'username' => 'required|max:50'
+        ]);
+        $firstname = $request->firstname;
+        $lastname = $request->lastname;
+        $email = $request->email;
+        $username = $request->username;
+        $password = $request->password;
+    
+        // Check query
+        try {
+            // Get user id
+            $updateProfile = User::find($id);
+            $updateProfile->firstname = $firstname;
+            $updateProfile->lastname = $lastname;
+            $updateProfile->email = $email;
+            $updateProfile->username = $username;
+            $updateProfile->save();
+            return redirect('/admin/adm-profile')->with('success', 'Profile Updated');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()->with('error', 'Unable to update profile' .$th);
+        }
+    }
+    /**
+     * Set Password
+     */
+    public function password(Request $request, $id)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:6',
+            'cpassword' => 'same:password'
+        ]);
+
+        $password = $request->password;
+        $hashPassword = bcrypt($password);
+    
+        // Check query
+        try {
+            // Get user id
+            $changePassword = User::find($id);
+            $changePassword->password = $hashPassword;
+            $changePassword->save();
+            return redirect('/admin/adm-profile')->with('success', 'Password Changed');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()->with('error', 'Unable to change password' .$th);
+        }
+    }
+    /**
+     * Upload profile image
+     */
+    public function uploadImage(Request $request, $id)
+    {
+        $this->validate($request, [
+            'image' => 'required|file|mimes:jpg,png,peg,svg,gif,jpeg',
+        ]);
+        $image = $request->image;
+        try {
+            $path = request()->file('image')->store('posts');
+            $uploadedImage = User::find($id);
+            $uploadedImage->image = $path;
+            $uploadedImage->save();
+            return redirect('/admin/adm-profile')->with('success', 'Image uploaded');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()->with('error', 'Unable to upload image' .$th);
+        }
+    }
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -167,14 +270,13 @@ class UserController extends Controller
      */
     public function edit($uuid)
     {
-        $User = User::where('uuid',$uuid)->first();
-        $categories = Category::all();
         if (Auth::guest()) {
             //is a guest so redirect
             return redirect('/admin/adm-login');
         }
+        $user = User::where('uuid',$uuid)->first();
         // Check for correct user
-        return view('admin.edit_User', compact(['User', $User, 'categories', $categories]));
+        return view('admin.edit_user')->with('user', $user);
     }
 
     /**

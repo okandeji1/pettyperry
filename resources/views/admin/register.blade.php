@@ -26,7 +26,7 @@
     <body>
 
         <!-- Begin page -->
-        <div class="accountbg"></div>
+        <div class="accountbg" style="background: midnightblue"></div>
         <div class="wrapper-page">
             <div class="panel panel-color panel-primary panel-pages">
 

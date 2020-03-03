@@ -73,11 +73,10 @@
                         <a href="#" id="btn-fullscreen" class="waves-effect waves-light"><i class="fa fa-crosshairs"></i></a>
                     </li>
                     <li class="dropdown">
-                        <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><img src="assets/images/users/d1.png" alt="user-img" class="img-circle"> </a>
+                        <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><img src="/storage/{{ Auth::user()->image }}" alt="Profile Image" class="img-circle"> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)"> Profile</a></li>
-                            <li><a href="javascript:void(0)"><span class="badge badge-success pull-right">5</span> Settings </a></li>
-                            <li><a href="javascript:void(0)"> Lock screen</a></li>
+                            <li><a href="/admin/adm-profile"> Profile</a></li>
+                            <li><a href="/admin/adm-settings/{{ Auth::user()->uuid }}"><span class="badge badge-success pull-right">5</span> Settings </a></li>
                             <li class="divider"></li>
                             <li><a href="/logout"> Logout</a></li>
                         </ul>
