@@ -17,14 +17,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        // passing category & product to the view
-        $categories = Category::all();
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
         if (Auth::guest()) {
             //is a guest so redirect
             return redirect('/admin/adm-login');
         }
-        return view('admin.post', compact(['posts', $posts, 'categories', $categories]));
+        try {
+            //code...
+            // passing category & product to the view
+            $categories = Category::all();
+            $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+            return view('admin.post', compact(['posts', $posts, 'categories', $categories]));
+        } catch (\Throwable $th) {
+            //throw $th;
+            return view('admin.post')->with('error', 'Connection error' .$th);
+        }
     }
 
     /**
@@ -34,13 +40,18 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
         if (Auth::guest()) {
             //is a guest so redirect
             return redirect('/admin/adm-login');
         }
-        // Check for correct user
-        return view('admin.add_post')->with('categories', $categories);
+        try {
+            //code...
+            $categories = Category::all();
+            return view('admin.add_post')->with('categories', $categories);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return view('admin.add_post')->with('error'.$th);
+        }
     }
 
     /**
@@ -51,43 +62,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $this->validate($request, [
-            'image' => 'file|mimes:jpg,png,peg,svg,gif,jpeg',
+            'image' => 'required|file|mimes:jpg,png,peg,svg,gif,jpeg',
             'category' => 'required',
             'header' => 'required',
             'content' => 'required',
-            'media' => 'file|mimes:mp4,mp3',
+            'media' => 'file|mimes:mp4,mp3|max:100000',
         ]);
-        // Handle file upload
+        
         $post = new Post();
-        if ($request->hasFile('image')) {
-            // Get file name with the extension
+        // Checking for files
+        if($request->hasFile('image')){    
             $path = request()->file('image')->store('posts');
             $post->image = $path;
-        } else if($request->hasFile('media')){
-            $pathMedia = request()->file('media')->store('posts');
-            $post->video = $pathMedia;
-        }else {
-            return back()->with('error', 'A file is required');
         }
-        // $post = new Post();
-        // switch ($request) {
-        //     case $request->hasFile('image'):
-        //         # code...
-        //         $path = request()->file('image')->store('posts/');
-        //         $post->image = $path;
-        //         break;
-        //     case $request->hasFile('media'):
-        //         # code...
-        //         $pathMedia = request()->file('media')->store('posts/');
-        //         $post->video = $pathMedia;
-        //         break;
-        //     default:
-        //         # code...
-        //         return back()->with('error', 'A file is required');
-        //         break;
-        // }
+        if($request->hasFile('media')){
+            $pathMedia = request()->file('media')->store('posts');
+            $post->video = $pathMedia; 
+        }
         // Form data
         $data = $request->only(['header', 'content', 'category', 'link']);
         // Get category

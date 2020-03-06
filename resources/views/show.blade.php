@@ -12,13 +12,14 @@
                     <p>{{$post->created_at->format('F j, Y')}}</p>
                   </div>
                 </div>
-                <img class="blog-cover img-fluid" src="/storage/posts/{{$post->image}}" alt="blog image">
+                <img class="blog-cover img-fluid" src="/storage/{{$post->image}}" alt="blog image">
                 <p class="blog-pragraph"> <span></span>{{str_limit($post->content, $limit = 200, $end = '...')}}</p>
                 <div class="row">
                   <div class="col-12 col-sm-6">
-                      {{-- <img class="img-fluid" src="{{$post->image}}" alt="post image"> --}}
-                      <video controls loop>
-                        <source src="/posts/{{$post->video}}" type="video/mp4">
+                      {{-- <img class="img-fluid" src="storage/{{$post->image}}" alt="post image"> --}}
+                      <video controls loop poster="/storage/{{$post->video}}" width="400" height="400">
+                        <source src="/storage/{{$post->video}}" type="video/mp4" >
+                        <!--<source srcset="/storage/{{$post->video}}">-->
                       </video>
                   </div>
                 </div>
@@ -51,7 +52,7 @@
                     @foreach ($descPosts as $descPost)
                   <div class="col-12 col-md-6"><a href=""></a>
                     <div class="another-post_block prev-post">
-                      <div class="post-mini-img text-left"><a href="/posts/{{$descPost->uuid}}"><img src="/storage/posts/{{$descPost->image}}" alt="post image"></a></div>
+                      <div class="post-mini-img text-left"><a href="/posts/{{$descPost->uuid}}"><img src="/storage/{{$descPost->image}}" alt="post image"></a></div>
                       <div class="post-title">
                         <p>Previous post</p><a href="/posts/{{$descPost->uuid}}">{{$descPost->header}}</a>
                       </div>
@@ -65,7 +66,7 @@
                       <div class="post-title">
                         <p>Next post</p><a href="/posts/{{$posts->uuid}}">{{$posts->header}}</a>
                       </div>
-                      <div class="post-mini-img text-right"><a href="#"><img src="/storage/posts/{{$posts->image}}" alt="post image"></a></div>
+                      <div class="post-mini-img text-right"><a href="#"><img src="/storage/{{$posts->image}}" alt="post image"></a></div>
                     </div>
                   </div>
                   @break

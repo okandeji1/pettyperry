@@ -9,7 +9,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-header-title">
-                    <h4 class="pull-left page-title">Edit Post</h4>
+                    <h4 class="pull-left page-title">Add Post</h4>
+                    <p class="text-danger text-center">You can only post image alone but you cannot post video without image</p>
                     <ol class="breadcrumb pull-right">
                         <li><a href="#">Admin</a></li>
                         <li><a href="#">Pages</a></li>

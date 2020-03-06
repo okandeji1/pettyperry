@@ -40,6 +40,8 @@
                                                 <th>Last Name</th>
                                                 <th>Email</th>
                                                 <th>Username</th>
+                                                <th>Author</th>
+                                                <th>Admin</th>
                                                 <th>Date</th>
                                                 <th>Modified</th>
                                             </tr>
@@ -52,6 +54,16 @@
                                                 <td>{{$user->lastname}}</td>
                                                 <td>{{$user->email}}</td>
                                                 <td>{{$user->username}}</td>
+                                                @if($user->is_author)
+                                                <td>yes</td>
+                                                @else
+                                                <td>No</td>
+                                                @endif
+                                                @if($user->is_admin)
+                                                <td>yes</td>
+                                                @else
+                                                <td>No</td>
+                                                @endif
                                                 <td>{{$user->created_at->format('F j, Y')}}</td>
                                                 <td>
                                                     <a href="/admin/adm-edit/user/{{$user->uuid}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a> / 
@@ -67,6 +79,8 @@
                                                 <th>Last Name</th>
                                                 <th>Email</th>
                                                 <th>Username</th>
+                                                <th>Author</th>
+                                                <th>Admin</th>
                                                 <th>Date</th>
                                                 <th>Modified</th>
                                             </tr>
