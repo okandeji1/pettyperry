@@ -32,8 +32,11 @@ Route::post('/user/settings/{id}', 'UserController@profileSettings');
 Route::post('/user/password/{id}', 'UserController@password');
 Route::post('/user/image/{id}', 'UserController@uploadImage');
 Route::get('/admin/adm-user', 'UserController@index');
+Route::get('/admin/adm-edit/user/{uuid}', 'UserController@userPage');
+Route::post('/admin/user/adm-create', 'UserController@create');
+Route::post('/admin/user/adm-author/{id}', 'UserController@makeAuthor');
 Route::get('/admin/adm-edit/user/{uuid}', 'UserController@edit');
-Route::post('/update/{id}', 'UserController@update');
+Route::post('/admin/user/adm-admin/{id}', 'UserController@makeAdmin');
 Route::get('/admin/adm-delete/user/{id}', 'UserController@destroy');
 
 Route::get('/admin/adm-post', 'PostController@index');

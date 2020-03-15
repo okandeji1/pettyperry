@@ -18,11 +18,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(10);
         if (Auth::guest()) {
             //is a guest so redirect
             return redirect('/admin/adm-login');
         }
+        $users = User::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.user')->with('users', $users);
     }
     /**
@@ -76,6 +76,8 @@ class UserController extends Controller
             $user->lastname = $data['lastname'];
             $user->email = $data['email'];
             $user->password = $data['password'];
+            $user->is_admin = 1;
+            $user->is_author = 1;
             $user->save();
             // Create access token
             $user->createToken('pettyperry')->accessToken;
@@ -225,19 +227,37 @@ class UserController extends Controller
             return back()->with('error', 'Unable to upload image' .$th);
         }
     }
+
     /**
-     * Store a newly created resource in storage.
+     * Edit user form page
+     */
+    public function userPage($uuid)
+    {
+        if (Auth::guest()) {
+            //is a guest so redirect
+        }
+        try {
+            //code...
+            $user = User::where('uuid',$uuid)->first();
+            return view('admin.edit_user')->with('user', $user);
+        } catch (\Throwable $th) {
+            //throw $th;
+
+        }
+    }
+
+    /**
+     * Create a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(){
+    public function create(Request $request){
         $this->validate($request, [
             'firstname' => 'required|max:50',
             'lastname' => 'required|max:50',
             'email' => 'required|email',
-            'password' => 'required|min:6',
-            'cpassword' => 'required|same:password',
+            'password' => 'required'
         ]);
 
         $data = $request->only(['firstname', 'lastname', 'email', 'password']);
@@ -252,14 +272,12 @@ class UserController extends Controller
             $user->firstname = $data['firstname'];
             $user->lastname = $data['lastname'];
             $user->email = $data['email'];
-            $user->password = $data['password'];
-            $user->is_admin = 1;
-            $user->is_author = 1;
+            $user->password = $data['password'];            
             $user->save();
             // Create access token
             $user->createToken('pettyperry')->accessToken;
             // Redirect user
-            return redirect('/admin/adm-login')->with('success', ' Registration successful. Please login');
+            return back()->with('success', ' New User Created Successfully');
         }
     }
     /**
@@ -280,55 +298,58 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Make the specified resource admin.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function makeAdmin(Request $request, $id)
     {
-        $this -> validate($request, [
-            'header' => 'required',
-            'content' => 'required'
+        $this->validate($request, [
+            'admin' => 'required'
         ]);
-        // Handle file upload
-        if ($request->hasFile('image')) {
-            // Get file name with the extension
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            // Get just file name
-            $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just the extension
-            $extension = $request->file('image')->getClientOriginalExtension();
-            // File nameto store
-            $fileNameToStore = $fileName.'_'.time().'.'.$extension;
-            // Upload image
-            \Image::make($request->file('image'))->save(public_path('Users/').$fileNameToStore);
+
+        $admin = $request->admin;
+    
+        // Check query
+        try {
+            // Get user id
+            $admin = User::find($id);
+            $admin->is_admin = 1;
+            $admin->save();
+            return redirect('/admin/adm-user')->with('success', $admin->firstname. ' is now an admin');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()->with('error', 'Unable to make admin' .$th);
         }
-        $header = $request->header;
-        $content = $request->content;
-        $category = $request->category;
-        // Update User
-        $updateUser = User::find($id);
-        if($updateUser){
-            $updateUser->header = $header;
-            $updateUser->content = $content;
-            if ($request->hasFile('image')) {
-                $updateUser->image = $fileNameToStore;
-            }
-                $content = $request->content;
-            if($category !== null){
-                $getCategory = Category::where('name', '=', $category)->firstOrFail();
-                $getCategory_id = $getCategory->id;
-                $updateUser->category_id = $getCategory_id;
-                $updateUser->save();
-                return redirect('/admin/adm-User')->with('success', 'User Updated');
-            }else {
-                $updateUser->save();
-                return redirect('/admin/adm-User')->with('success', 'User Updated');
-            }
-        }else {
-            return redirect('/admin/adm-User')->with('error', 'Unable to update User');
+    }
+
+    /**
+     * Make the specified resource author.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $User
+     * @return \Illuminate\Http\Response
+     */
+    public function makeAuthor(Request $request, $id)
+    {
+        $this->validate($request, [
+            'author' => 'required'
+        ]);
+
+        $author = $request->author;
+    
+        // Check query
+        try {
+            // Get user id
+            $author = User::find($id);
+            $author->is_author = 1;
+            $author->save();
+            return redirect('/admin/adm-user')->with('success', $author->firstname. ' is now an author');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()->with('error', 'Unable to make author' .$th);
         }
     }
 
@@ -344,7 +365,6 @@ class UserController extends Controller
         // Check for correct user
         if($deleteUser){
             // Delete Image
-            Storage::delete('users/'. $deleteUser->image);
             $deleteUser ->delete();
             return redirect('/admin/adm-user')->with('success', 'User was deleted successfuly');
         }else {

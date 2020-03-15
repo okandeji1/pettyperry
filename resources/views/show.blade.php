@@ -1,11 +1,16 @@
 @extends('layouts.user')
+<style>
+    .paragraph {
+  white-space: pre-wrap;
+}
+</style>
 @section('content')
       <section class="blog-detail">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
               <div class="post-block">
-                <h1 class="blog-detail-title">{{$post->header}}</h1>
+                <h1 class="post-title">{{$post->header}}</h1>
                 <div class="blog-credit">
                   <div class="blog-credit_wrapper">
                     <h5>{{$post->user->name}}</h5>
@@ -24,7 +29,7 @@
                   </div>
                 </div>
                 <h3 class="post-title">{{$post->header}}</h3>
-                <p class="blog-pragraph">{{$post->content}}</p>
+                <p class="blog-pragraph paragraph">{{$post->content}}</p>
               </div>
               <div class="post-footer">
                 <div class="row">

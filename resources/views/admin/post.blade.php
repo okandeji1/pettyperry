@@ -92,29 +92,4 @@
 
 </div>
 <!-- content -->
-<script src="{{asset('admin/js/jquery.min.js')}}"></script>
-{{-- Script to append post status --}}
-<script>
-    $('#postId').on('click', function(e){
-            e.preventDefault();
-            // alert($('#postId').val());
-            // return
-            // Process postId post
-            var postId = $('#postId').val();
-            $.ajax({
-                url: "/admin/adm-publish/post/",
-                type: 'POST',
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "postId": postId
-                },
-                success: function(data){
-                    console.log(data)					
-                },
-                error: function(error){
-                    console.error('Error publishing your post', error)
-                }
-            });
-    });
-</script>
 @endsection

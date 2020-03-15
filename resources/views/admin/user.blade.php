@@ -65,8 +65,9 @@
                                                 <td>No</td>
                                                 @endif
                                                 <td>{{$user->created_at->format('F j, Y')}}</td>
+                                                <div id="message"></div>
                                                 <td>
-                                                    <a href="/admin/adm-edit/user/{{$user->uuid}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a> / 
+                                                    <a href="/admin/adm-edit/user/{{$user->uuid}}" class="btn btn-success btn-sm" data-tooltip="Here – is the house interior" id="admin"><i class="fa fa-edit"></i></a> / 
                                                     <a href="/admin/adm-delete/user/{{$user->id}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -98,37 +99,66 @@
 </div>
 <!-- content -->
 
-<!-- Modal -->
+<!-- Modal Add New User-->
 <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProduct" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProduct">Add New Post</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-                </button>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addProduct">Add User</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/user/adm-create" method="post">
+                {{ csrf_field() }}
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" name="firstname" class="form-control :class="{ 'is-invalid': form.errors.has('firstname') }" required>
+                <has-error :form="form" field="firstname"></has-error>
             </div>
-            <div class="modal-body">
-               <form action="/admin/adm-create" method="post">
-                    {{ csrf_field() }}
-                <div class="form-group">
-                    <input type="file" name="image" class="form-control :class="{ 'is-invalid': form.errors.has('image') }" required>
-                    <has-error :form="form" field="image"></has-error>
-                </div>
-                <div class="form-group">
-                    <textarea name="header" class="form-control :class="{ 'is-invalid': form.errors.has('header') }" placeholder="Post header" required></textarea>
-                    <has-error :form="form" field="header"></has-error>
-                </div>
-                <div class="form-group">
-                    <textarea name="content" class="form-control :class="{ 'is-invalid': form.errors.has('content') }" placeholder="Post content" required></textarea>
-                    <has-error :form="form" field="content"></has-error>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success" type="submit">Save</button>
-                </div>
-              </form>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" name="lastname" class="form-control :class="{ 'is-invalid': form.errors.has('lastname') }" required>
+                <has-error :form="form" field="lastname"></has-error>
             </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" class="form-control :class="{ 'is-invalid': form.errors.has('email') }" required>
+                <has-error :form="form" field="email"></has-error>
+            </div>
+            <div class="form-group">
+                <label for="password">Generated Password (Copy this code and use it to login)</label>
+                <input type="text" name="password" id="password" class="form-control :class="{ 'is-invalid': form.errors.has('password') }" required>
+                <has-error :form="form" field="username"></has-error>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" type="submit">Save</button>
+            </div>
+            </form>
         </div>
     </div>
+</div>
+
+{{-- Script --}}
+<script src="{{asset('admin/js/jquery.min.js')}}"></script>
+<script>
+
+    // Generage Password
+    function generatePassword() {
+        var text = '';
+        // var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var possible = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        // var possible = new Date().format('mdhi');
+
+        for (var i = 0; i < 12; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        // text += possible;
+
+        return text;
+    }
+    $('#password').val(generatePassword());
+
+</script>
 @endsection
