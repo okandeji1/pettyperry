@@ -24,7 +24,6 @@
                       {{-- <img class="img-fluid" src="storage/{{$post->image}}" alt="post image"> --}}
                       <video controls loop poster="/storage/{{$post->video}}" width="400" height="400">
                         <source src="/storage/{{$post->video}}" type="video/mp4" >
-                        <!--<source srcset="/storage/{{$post->video}}">-->
                       </video>
                   </div>
                 </div>
@@ -80,9 +79,9 @@
               </div>
               <h1>Display Comments</h1>
               <div class="post-author-detail">
-                  {{-- Comment Block --}}
-                {{-- @include('partials._comment_replies', ['comments' => $posts->comments, 'post_id' => $post->id]) --}}
-                {{-- <div class="row no-gutters align-items-center">
+                   {{-- Comment Block --}}
+                @include('partials._comment_replies', ['comments' => $posts->comments, 'post_id' => $post->id])
+                <div class="row no-gutters align-items-center">
                     @foreach($post->comments as $comment)
                   <div class="col-sm-7 col-md-9">
                     <div class="author-info">
@@ -91,11 +90,12 @@
                     </div>
                   </div>
                   @endforeach
-                </div> --}}
+                </div>
               </div>
               <div class="post-comment">
                 <h2>Leave a comment</h2>
-                {{-- <form action="{{ route('comment.add') }}" method="POST">
+                <form action="{{ route('comment.add') }}" method="POST">
+                  @csrf
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <input class="input-form trans-bg" name="name" type="text" placeholder="Name" required>
@@ -106,9 +106,10 @@
                   </div>
                   <div class="form-group">
                     <textarea class="textarea-form trans-bg" id="messages" name="comment_body" cols="30" rows="6" placeholder="Your Comment"></textarea>
+                    <input type="hidden" name="post_id" value="{{ $post->id }}" />
                   </div>
                   <button class="normal-btn">Add Comment</button>
-                </form> --}}
+                </form>
               </div>
             </div>
           </div>

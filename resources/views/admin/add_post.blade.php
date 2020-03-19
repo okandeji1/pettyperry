@@ -33,9 +33,11 @@
                                 </select>
                                 <has-error :form="form" field="category"></has-error>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group increment">
                             <label for="image">Image</label>
                             <input id="image" type="file" name="image" class="form-control :class="{ 'is-invalid': form.errors.has('image') }">
+                            <div class="input-group-btn"> 
+                              </div>
                             <has-error :form="form" field="image"></has-error>
                         </div>
                         <div class="form-group">
@@ -59,9 +61,13 @@
                             <has-error :form="form" field="content"></has-error>
                         </div>
                         <div class="form-group">
-                            <button class="form-control btn btn-success rounded-pill" type="submit">Save</button>
+                            <button class="form-control btn btn-success rounded-pill" name="upload" type="submit">Save</button>
                         </div>
-                      </form>
+                    </form>
+                    <br />
+                    <div class="progress">
+                        <div class="progress-bar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> 0%</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,6 +76,29 @@
     </div> <!-- container -->
 
 </div> <!-- content -->
+{{-- Script section --}}
+<script src="{{asset('admin/js/jquery.min.js')}}"></script>
+{{-- Progress bar --}}
+<script>
+    $(document).ready(()=>{
+        $('form').ajaxForm({
+            beforeSend: function(){
+                $('#success').empty();
+                $('.progress-bar').text('0%');
+                $('.progress-bar').css('width', '0%');
+            },
+            uploadProgress: function(e, position, total, percentComplete){
+                $('.progress-bar').text(percentComplete + '0%');
+                $('.progress-bar').css('width', percentComplete + '0%');
+            },
+            success: function(data){
+                if(data.success){
+                    $('.progress-bar').css('width', '100%');
+                }
+            }
+        });
+    });
+</script>
 {{-- ck editor scripts --}}
 {{-- <script src="https://cdn.ckeditor.com/ckeditor5/17.0.0/classic/ckeditor.js"></script>
 <script>

@@ -63,18 +63,20 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|file|mimes:jpg,png,peg,svg,gif,jpeg',
+            'image*' => 'required|file|mimes:jpg,png,peg,svg,gif,jpeg',
             'category' => 'required',
             'header' => 'required',
             'content' => 'required',
             'media' => 'file|mimes:mp4,mp3|max:100000',
         ]);
-        
         $post = new Post();
         // Checking for files
         if($request->hasFile('image')){    
-            $path = request()->file('image')->store('posts');
-            $post->image = $path;
+            foreach ($request->file('image') as $image) {
+                $path[] = $image->store('posts');
+                # code...
+            }
+            $post->image = json_encode($path);
         }
         if($request->hasFile('media')){
             $pathMedia = request()->file('media')->store('posts');

@@ -13,6 +13,9 @@
 
 Route::get('/', 'PagesController@index');
 Route::get('/posts/{uuid}', 'PagesController@show');
+// Comment route
+Route::post('/comment/store', 'CommentController@store')->name('comment.add');
+Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
 
 Route::get('/admin/adm-login', function(){
     return view('admin/login');

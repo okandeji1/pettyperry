@@ -6,13 +6,13 @@
         <form method="post" action="{{ route('reply.add') }}">
             @csrf
             <div class="form-group">
-                <textarea type="text" name="comment_body"></textarea>
+                <textarea class="textarea-form trans-bg" name="comment_body" placeholder="Your Comment" required></textarea>
             </div>
-            <div class="form-group">
-                <input type="text" name="name" required placeholder="Input your name">
+            <div class="form-group col-md-6">
+                <input type="text" class="input-form trans-bg" name="name" required placeholder="Your name">
             </div>
-            <div class="form-group">
-                <input type="email" name="email" required placeholder="Input your Email">
+            <div class="form-group col-md-6">
+                <input type="email" class="input-form trans-bg" name="email" required placeholder="Your Email">
             </div>
             <div class="form-group">
                 <input type="hidden" name="post_id" value="{{ $post_id }}" />
